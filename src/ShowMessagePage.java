@@ -19,9 +19,11 @@ public class ShowMessagePage {
     @FindBy(xpath = "//a[@class='list']")
     private WebElement messageListButton;
 
+    //TODO Локатор надо переделать
     @FindBy(xpath = "//tr[1]/td[@class='value']")
     private WebElement headline;
 
+    //TODO Локатор надо переделать
     @FindBy(xpath = "//tr[3]/td[@class='value']")
     private WebElement message;
 

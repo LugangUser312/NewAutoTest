@@ -13,9 +13,11 @@ public class EditMessagePage {
 
     private static String URL_MATCH = "Edit Message";
 
+    //TODO Локатор налдо переделать
     @FindBy(xpath = "//tr[1]/td/input[@id='headline']")
     private WebElement headline;
 
+    //TODO Локатор налдо переделать
     @FindBy(xpath = "//tr[2]/td/input[@id='text']")
     private WebElement message;
 

@@ -35,7 +35,7 @@ public class LoginPage {
     public MessageListPage signIn(String login, String password) {
         logineField.clear();
         logineField.sendKeys(login);
-        passwordField.sendKeys(password);
+        passwordField.sendKeys(password);//TODO А почему это поле не чистишь?
         buttonLogin.click();
         return new MessageListPage(driver);
     }

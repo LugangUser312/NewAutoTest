@@ -26,7 +26,7 @@ public class MessageListPage {
     private WebElement title;
 
     @FindBy(xpath = "//input[@type='checkbox']")
-    private WebElement checkBox;
+    private WebElement checkBox;//TODO Называть все таки надо по бизнес логике, а не по типу. Что за чекбокс
 
     private By nextButton = By.xpath("//a[@class='nextLink']");
 
@@ -47,6 +47,8 @@ public class MessageListPage {
 
     private static int countOfMessage; // почему поле класа сбрасывалось до 0 , пока не сделал его статик?
     // b = 7 , a = b, a = 6 чему равно b????
+    //TODO Потому что без static поле принадлежит объекту. А у тебя постоянно создается новая страница
+    //TODO этому полю и значению здесь не место. Если тебе очень надо его зачем-то хранить используй какой-нибудь другой класс
 
 
     public static void setCountOfMessage(int countOfMessage) {
@@ -81,6 +83,7 @@ public class MessageListPage {
     }
 
     public MessageListPage checkTwoLastMessage(String headline1, String message1, String headline2, String message2){
+        //TODO Надо переделать реализацию.
         WebElement firstHeadline = (WebElement) getLastTwoTdOfMessage().get("list2").get(1);
         WebElement firstMessage = (WebElement) getLastTwoTdOfMessage().get("list2").get(2);
         WebElement secondHeadline = (WebElement) getLastTwoTdOfMessage().get("list1").get(1);
@@ -92,7 +95,9 @@ public class MessageListPage {
         return new MessageListPage(driver);
     }
 
+    //TODO Этот метод стоит вообще удалить
     private Map<String, List> getLastTwoTdOfMessage(){
+        //TODO ДУбликат. Создай метод toLastPage() или openLastPage()
         while(!driver.findElements(nextButton).isEmpty()){
             driver.findElement(nextButton).click();
         }
@@ -109,6 +114,7 @@ public class MessageListPage {
         }else{
             tdList = trLists.get(trLists.size() - 1).findElements(By.tagName("td"));
             driver.findElement(previusButoon).click();
+            //TODO И это работает? У тебя должен быть StaleElementReferenceException
             tdListBefore = trLists.get(trLists.size() - 2).findElements(By.tagName("td"));
             tdMap = new HashMap<String, List>();
             tdMap.put("list1", tdList);

@@ -26,8 +26,8 @@ public class Sample {
         driver = new ChromeDriver();
         driver.get("http://localhost:8080/QulixTeachingSite");
         new StartPage(driver).clickUserController().
-                signIn(login, password).setMessagesCount();
-        driver.get("http://localhost:8080/QulixTeachingSite");
+                signIn(login, password).setMessagesCount();//TODO Что тут делается и зачем?
+        driver.get("http://localhost:8080/QulixTeachingSite");//И тут?
     }
 
     @AfterMethod
