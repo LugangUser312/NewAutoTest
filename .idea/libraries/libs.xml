@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="file://D:/Selenium/selenium/Tools/selenium-java-2.53.1/selenium-2.53.1/libs" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://D:/Selenium/selenium/Tools/selenium-java-2.53.1/selenium-2.53.1/libs" recursive="false" />
+  </library>
+</component>
