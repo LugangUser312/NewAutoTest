@@ -20,14 +20,13 @@ public class Sample {
     private WebDriver driver;
 
     @BeforeMethod
-    @Parameters({"Login", "Password"})
-    public void doBeforeTest(String login, String password){
+    public void doBeforeTest(){
         System.setProperty("webdriver.chrome.driver", "D:/Selenium/selenium/chromedriver_win32/chromedriver.exe");
         driver = new ChromeDriver();
-        driver.get("http://localhost:8080/QulixTeachingSite");
-        new StartPage(driver).clickUserController().
+        /*driver.get("http://localhost:8080/QulixTeachingSite");*/
+        /*new StartPage(driver).clickUserController().
                 signIn(login, password).setMessagesCount();//TODO Что тут делается и зачем?
-        driver.get("http://localhost:8080/QulixTeachingSite");//И тут?
+        driver.get("http://localhost:8080/QulixTeachingSite");//И тут?*/
     }
 
     @AfterMethod
@@ -37,7 +36,7 @@ public class Sample {
 
     @Test
     @Parameters({"Login", "Password", "Message", "Headline"})
-    public void doTest(String login, String password, String message, String headline) {
+    public void test1(String login, String password, String message, String headline) {
         System.out.println("Test 1 has started");
         new StartPage(driver).clickUserController().
                 signIn(login, password).clickNewMessageButton().
@@ -76,20 +75,22 @@ public class Sample {
     @Parameters({"Login", "Password", "Message", "Headline"})
     public void test4(String login, String password, String message, String headline){
         System.out.println("Test 4 has started");
+        int messageCount = new StartPage(driver).clickUserController().signIn(login, password).getMessageCount();
         new StartPage(driver).clickUserController().
                 signIn(login, password).clickNewMessageButton().
                 enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage().
                 checkMessage(headline, message).messageListButtonClick().
-                checkLastMessage(headline, message).clickDeleteMessage().checkMessageNotExist();
+                checkLastMessage(headline, message).clickDeleteMessage().checkMessageNotExist(messageCount);
     }
 
     @Test
     @Parameters({"Login", "Password", "Message", "Headline"})
     public void test5(String login, String password, String message, String headline){
         System.out.println("Test 5 has started");
+        int messageCount = new StartPage(driver).clickUserController().signIn(login, password).getMessageCount();
         new StartPage(driver).clickUserController().
                 signIn(login, password).clickNewMessageButton().
-                enterMessage(headline, message).checkFieldsIsNotEmpty().messageListButtonClick().checkMessageNotExist();
+                enterMessage(headline, message).checkFieldsIsNotEmpty().messageListButtonClick().checkMessageNotExist(messageCount);
     }
 
 
@@ -111,7 +112,7 @@ public class Sample {
         new StartPage(driver).clickUserController().
                 signIn(login, password).clickNewMessageButton().
                 enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage().
-                checkMessage(headline, message).messageListButtonClick().checkLastMessage(headline, message).clickViewLastMessage().checkMessage(headline, message).messageListButtonClick().checkLastMessage(headline, message).clickLogout().signIn(newLogin, newPassword).clickNewMessageButton().
-                createMessage().clickNewMessageButton().enterMessage(newHeadline, newMessage).checkFieldsIsNotEmpty().createMessage().checkMessage(newHeadline, newMessage).messageListButtonClick().checkLastMessage(newHeadline, newMessage).clickViewLastMessage().messageListButtonClick().clickLogout().signIn(login, password).checkTwoLastMessage(headline, message, newHeadline, newMessage);
+                checkMessage(headline, message).messageListButtonClick().checkLastMessage(headline, message).clickViewLastMessage().checkMessage(headline, message).messageListButtonClick().checkLastMessage(headline, message).clickLogout().signIn(newLogin, newPassword).clickNewMessageButton().enterMessage(newHeadline,newMessage).checkFieldsIsNotEmpty().
+                createMessage().checkMessage(newHeadline, newMessage).messageListButtonClick().checkLastMessage(newHeadline, newMessage).clickViewLastMessage().checkMessage(newHeadline, newMessage).messageListButtonClick().clickLogout().signIn(login, password).checkTwoLastMessage(headline, message, newHeadline, newMessage);
     }
 }

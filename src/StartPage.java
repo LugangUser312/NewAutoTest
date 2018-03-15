@@ -15,6 +15,7 @@ public class StartPage {
 
 
     public StartPage(WebDriver driver){
+        driver.get("http://localhost:8080/QulixTeachingSite");
         if (driver.findElements(userControllerLink).size() == 0){
             throw new IllegalStateException(
                     "This is not the StartPage you are expected");

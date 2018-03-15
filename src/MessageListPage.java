@@ -26,7 +26,7 @@ public class MessageListPage {
     private WebElement title;
 
     @FindBy(xpath = "//input[@type='checkbox']")
-    private WebElement checkBox;//TODO Называть все таки надо по бизнес логике, а не по типу. Что за чекбокс
+    private WebElement showAllMessage;//TODO Называть все таки надо по бизнес логике, а не по типу. Что за чекбокс
 
     private By nextButton = By.xpath("//a[@class='nextLink']");
 
@@ -41,27 +41,17 @@ public class MessageListPage {
 
     private By delete = By.linkText("Delete");
 
-    public int getCountOfMessage() {
-        return countOfMessage;
-    }
-
-    private static int countOfMessage; // почему поле класа сбрасывалось до 0 , пока не сделал его статик?
-    // b = 7 , a = b, a = 6 чему равно b????
+    // b = 1 , a = b, a = 2    b = 2???
     //TODO Потому что без static поле принадлежит объекту. А у тебя постоянно создается новая страница
     //TODO этому полю и значению здесь не место. Если тебе очень надо его зачем-то хранить используй какой-нибудь другой класс
-
-
-    public static void setCountOfMessage(int countOfMessage) {
-        MessageListPage.countOfMessage = countOfMessage;
-    }
 
     public MessageListPage(WebDriver driver){
         PageFactory.initElements(driver, this);
         if (!title.getText().equals(URL_MATCH)){
             throw new IllegalStateException("This is not the MessageListPage you are expected");
         }
-        if (!checkBox.isSelected()) {
-            checkBox.click();
+        if (!showAllMessage.isSelected()) {
+            showAllMessage.click();
         }
         this.driver = driver;
     }
@@ -71,10 +61,20 @@ public class MessageListPage {
         return new CreateMessagePage(driver);
     }
 
-    public MessageListPage checkLastMessage(String headline, String message){
+    public int getMessageCount(){
+        toLastPage();
+        List<WebElement> trLists = driver.findElements(By.tagName("tr"));
+        return trLists.size();
+    }
+
+    private void toLastPage(){
         while(!driver.findElements(nextButton).isEmpty()){
             driver.findElement(nextButton).click();
         }
+    }
+
+    public MessageListPage checkLastMessage(String headline, String message){
+        toLastPage();
         List<WebElement> trLists = driver.findElements(By.tagName("tr"));
         List<WebElement> tdList = trLists.get(trLists.size()-1).findElements(By.tagName("td"));
         Assert.assertEquals(tdList.get(1).getText(), headline);
@@ -83,24 +83,39 @@ public class MessageListPage {
     }
 
     public MessageListPage checkTwoLastMessage(String headline1, String message1, String headline2, String message2){
-        //TODO Надо переделать реализацию.
-        WebElement firstHeadline = (WebElement) getLastTwoTdOfMessage().get("list2").get(1);
-        WebElement firstMessage = (WebElement) getLastTwoTdOfMessage().get("list2").get(2);
-        WebElement secondHeadline = (WebElement) getLastTwoTdOfMessage().get("list1").get(1);
-        WebElement secondMessage = (WebElement) getLastTwoTdOfMessage().get("list1").get(2);
-        Assert.assertEquals(firstHeadline.getText(), headline1);
-        Assert.assertEquals(firstMessage.getText(), message1);
-        Assert.assertEquals(secondHeadline.getText(), headline2);
-        Assert.assertEquals(secondMessage.getText(), message2);
+        toLastPage();
+        WebElement firstHeadline;
+        WebElement firstMessage;
+        WebElement secondHeadline;
+        WebElement secondMessage;
+        List<WebElement> trLists = driver.findElements(By.tagName("tr"));
+        if(trLists.size() > 2){
+            firstHeadline = trLists.get(trLists.size()-1).findElements(By.tagName("td")).get(1);
+            System.out.println(firstHeadline.getText());
+            secondHeadline = trLists.get(trLists.size()-2).findElements(By.tagName("td")).get(1);
+            System.out.println(secondHeadline.getText());
+            firstMessage = trLists.get(trLists.size()-1).findElements(By.tagName("td")).get(2);
+            System.out.println(firstMessage.getText());
+            secondMessage = trLists.get(trLists.size()-2).findElements(By.tagName("td")).get(2);
+            System.out.println(secondMessage.getText());
+        }else{
+            firstHeadline = trLists.get(trLists.size()-1).findElements(By.tagName("td")).get(1);
+            firstMessage = trLists.get(trLists.size()-1).findElements(By.tagName("td")).get(2);
+            driver.findElement(previusButoon).click();
+            List<WebElement> trListsBefore = driver.findElements(By.tagName("tr"));
+            secondHeadline = trListsBefore.get(trLists.size()-1).findElements(By.tagName("td")).get(1);
+            secondMessage = trListsBefore.get(trLists.size()-1).findElements(By.tagName("td")).get(2);
+        }
+        Assert.assertEquals(firstHeadline.getText(), headline2);
+        Assert.assertEquals(firstMessage.getText(), message2);
+        Assert.assertEquals(secondHeadline.getText(), headline1);
+        Assert.assertEquals(secondMessage.getText(), message1);
         return new MessageListPage(driver);
     }
 
     //TODO Этот метод стоит вообще удалить
-    private Map<String, List> getLastTwoTdOfMessage(){
-        //TODO ДУбликат. Создай метод toLastPage() или openLastPage()
-        while(!driver.findElements(nextButton).isEmpty()){
-            driver.findElement(nextButton).click();
-        }
+   /* private Map<String, List> getLastTwoTdOfMessage(){
+        toLastPage();
         Map<String, List> tdMap;
         List<WebElement> trLists = driver.findElements(By.tagName("tr"));
         List<WebElement> tdList;
@@ -115,50 +130,46 @@ public class MessageListPage {
             tdList = trLists.get(trLists.size() - 1).findElements(By.tagName("td"));
             driver.findElement(previusButoon).click();
             //TODO И это работает? У тебя должен быть StaleElementReferenceException
-            tdListBefore = trLists.get(trLists.size() - 2).findElements(By.tagName("td"));
+            tdListBefore = trLists.get(trLists.size() - 1).findElements(By.tagName("td"));
             tdMap = new HashMap<String, List>();
             tdMap.put("list1", tdList);
             tdMap.put("list2", tdListBefore);
         }
         return tdMap;
+    }*/
+
+    private WebElement getButtonsForLastMessage(){
+        toLastPage();
+        List<WebElement> trLists = driver.findElements(By.tagName("tr"));
+        List<WebElement> tdList = trLists.get(trLists.size() - 1).findElements(By.tagName("td"));
+        return tdList.get(0);
     }
 
     public ShowMessagePage clickViewLastMessage(){
-        WebElement element = (WebElement) getLastTwoTdOfMessage().get("list1").get(0);
-        element.findElement(view).click();
+        getButtonsForLastMessage().findElement(view).click();
         return new ShowMessagePage(driver);
     }
 
     public EditMessagePage clickEditMessage(){
-        WebElement element = (WebElement) getLastTwoTdOfMessage().get("list1").get(0);
-        element.findElement(edit).click();
+        getButtonsForLastMessage().findElement(edit).click();
         return new EditMessagePage(driver);
     }
 
     public MessageListPage clickDeleteMessage(){
-        WebElement element = (WebElement) getLastTwoTdOfMessage().get("list1").get(0);
-        element.findElement(delete).click();
+        getButtonsForLastMessage().findElement(delete).click();
         return new MessageListPage(driver);
     }
 
-    public MessageListPage checkMessageNotExist(){
+    public MessageListPage checkMessageNotExist(int countOfMessageBefore){
         while(!driver.findElements(nextButton).isEmpty()){
             driver.findElement(nextButton).click();
         }
         List<WebElement> trLists = driver.findElements(By.tagName("tr"));
-        if(trLists.size() == getCountOfMessage()){
+        if(trLists.size() == countOfMessageBefore){
             return new MessageListPage(driver);
         } else {
          throw new RuntimeException("Message is created or didn't delete");
         }
-    }
-
-    public void setMessagesCount(){
-        while(!driver.findElements(nextButton).isEmpty()){
-            driver.findElement(nextButton).click();
-        }
-        List<WebElement> trLists = driver.findElements(By.tagName("tr"));
-        setCountOfMessage(trLists.size());
     }
 
     public LoginPage clickLogout(){
