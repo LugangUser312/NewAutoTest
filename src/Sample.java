@@ -23,10 +23,6 @@ public class Sample {
     public void doBeforeTest(){
         System.setProperty("webdriver.chrome.driver", "D:/Selenium/selenium/chromedriver_win32/chromedriver.exe");
         driver = new ChromeDriver();
-        /*driver.get("http://localhost:8080/QulixTeachingSite");*/
-        /*new StartPage(driver).clickUserController().
-                signIn(login, password).setMessagesCount();//TODO Что тут делается и зачем?
-        driver.get("http://localhost:8080/QulixTeachingSite");//И тут?*/
     }
 
     @AfterMethod
@@ -109,10 +105,21 @@ public class Sample {
     @Parameters({"Login", "Password", "Message", "Headline", "NewMessage", "NewHeadline", "NewLogin", "NewPassword"})
     public void test7(String login, String password, String message, String headline, String newMessage, String newHeadline, String newLogin, String newPassword){
         System.out.println("Test 7 has started");
-        new StartPage(driver).clickUserController().
-                signIn(login, password).clickNewMessageButton().
-                enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage().
-                checkMessage(headline, message).messageListButtonClick().checkLastMessage(headline, message).clickViewLastMessage().checkMessage(headline, message).messageListButtonClick().checkLastMessage(headline, message).clickLogout().signIn(newLogin, newPassword).clickNewMessageButton().enterMessage(newHeadline,newMessage).checkFieldsIsNotEmpty().
-                createMessage().checkMessage(newHeadline, newMessage).messageListButtonClick().checkLastMessage(newHeadline, newMessage).clickViewLastMessage().checkMessage(newHeadline, newMessage).messageListButtonClick().clickLogout().signIn(login, password).checkTwoLastMessage(headline, message, newHeadline, newMessage);
+        //TODO Просто для инфо:
+        //Точка при переносе должна быть в начале строки
+        //Старайся оформлять код так, чтобы он не вылезал за пределы экрана (IDEA подсвечивает границы печатаемого окна)
+        new StartPage(driver).clickUserController()
+                .signIn(login, password)
+                .clickNewMessageButton()
+                .enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage()
+                .checkMessage(headline, message).messageListButtonClick().checkLastMessage(headline, message)
+                .clickViewLastMessage().checkMessage(headline, message).messageListButtonClick()
+                .checkLastMessage(headline, message).clickLogout().signIn(newLogin, newPassword)
+                .clickNewMessageButton().enterMessage(newHeadline,newMessage).checkFieldsIsNotEmpty().
+                createMessage().checkMessage(newHeadline, newMessage).messageListButtonClick()
+                .checkLastMessage(newHeadline, newMessage).clickViewLastMessage()
+                .checkMessage(newHeadline, newMessage).messageListButtonClick().clickLogout()
+                .signIn(login, password)
+                .checkTwoLastMessage(headline, message, newHeadline, newMessage);
     }
 }

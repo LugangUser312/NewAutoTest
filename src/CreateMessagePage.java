@@ -53,6 +53,7 @@ public class CreateMessagePage {
         if (headline.getAttribute("value").isEmpty() && text.getAttribute("value").isEmpty()){
             throw new RuntimeException("Fields are empty");
         }else{
+            //todo если хочешь вернуть эту же страницу, то и возвращай this. незачем каждый раз новый экземпляр создавать
             return new CreateMessagePage(driver);
         }
     }

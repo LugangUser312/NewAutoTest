@@ -19,11 +19,9 @@ public class ShowMessagePage {
     @FindBy(xpath = "//a[@class='list']")
     private WebElement messageListButton;
 
-    //TODO Локатор надо переделать
     @FindBy(xpath = "//td[text()='Headline']/following::td[1]")
     private WebElement headline;
 
-    //TODO Локатор надо переделать
     @FindBy(xpath = "//td[text()='Text']/following::td[1]")
     private WebElement message;
 

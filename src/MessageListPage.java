@@ -26,7 +26,7 @@ public class MessageListPage {
     private WebElement title;
 
     @FindBy(xpath = "//input[@type='checkbox']")
-    private WebElement showAllMessage;//TODO Называть все таки надо по бизнес логике, а не по типу. Что за чекбокс
+    private WebElement showAllMessage;
 
     private By nextButton = By.xpath("//a[@class='nextLink']");
 
@@ -41,9 +41,6 @@ public class MessageListPage {
 
     private By delete = By.linkText("Delete");
 
-    // b = 1 , a = b, a = 2    b = 2???
-    //TODO Потому что без static поле принадлежит объекту. А у тебя постоянно создается новая страница
-    //TODO этому полю и значению здесь не место. Если тебе очень надо его зачем-то хранить используй какой-нибудь другой класс
 
     public MessageListPage(WebDriver driver){
         PageFactory.initElements(driver, this);
@@ -89,6 +86,21 @@ public class MessageListPage {
         WebElement secondHeadline;
         WebElement secondMessage;
         List<WebElement> trLists = driver.findElements(By.tagName("tr"));
+        //TODO Я  бы реализовал как-то так (нужно стремится к тому, чтобы все происходящее в методе было понятно с одного взгляда):
+        /*
+        toLastPage();
+        List<Element> lastRowCells = getCurrentPageLastRowCells();
+        //запоминаем текст ячеек в переменные
+        List<Element> previousRowCells;
+        if (getRowsCountOnCurrentPage()>1){
+            previousRowCells = getCurrentPageRowCells(getRowsCountOnCurrentPage()-1);
+        }else{
+            toPreviousPage();
+            previousRowCells = getCurrentPageLastRowCells();
+        }
+        //запоминаем текст ячеек в переменные
+        //Далее уже асерты
+         */
         if(trLists.size() > 2){
             firstHeadline = trLists.get(trLists.size()-1).findElements(By.tagName("td")).get(1);
             System.out.println(firstHeadline.getText());
@@ -113,30 +125,6 @@ public class MessageListPage {
         return new MessageListPage(driver);
     }
 
-    //TODO Этот метод стоит вообще удалить
-   /* private Map<String, List> getLastTwoTdOfMessage(){
-        toLastPage();
-        Map<String, List> tdMap;
-        List<WebElement> trLists = driver.findElements(By.tagName("tr"));
-        List<WebElement> tdList;
-        List<WebElement> tdListBefore;
-        if(trLists.size() >= 2) {
-            tdList = trLists.get(trLists.size() - 1).findElements(By.tagName("td"));
-            tdListBefore = trLists.get(trLists.size() - 2).findElements(By.tagName("td"));
-            tdMap = new HashMap<String, List>();
-            tdMap.put("list1", tdList);
-            tdMap.put("list2", tdListBefore);
-        }else{
-            tdList = trLists.get(trLists.size() - 1).findElements(By.tagName("td"));
-            driver.findElement(previusButoon).click();
-            //TODO И это работает? У тебя должен быть StaleElementReferenceException
-            tdListBefore = trLists.get(trLists.size() - 1).findElements(By.tagName("td"));
-            tdMap = new HashMap<String, List>();
-            tdMap.put("list1", tdList);
-            tdMap.put("list2", tdListBefore);
-        }
-        return tdMap;
-    }*/
 
     private WebElement getButtonsForLastMessage(){
         toLastPage();
