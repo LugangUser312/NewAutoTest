@@ -76,53 +76,45 @@ public class MessageListPage {
         List<WebElement> tdList = trLists.get(trLists.size()-1).findElements(By.tagName("td"));
         Assert.assertEquals(tdList.get(1).getText(), headline);
         Assert.assertEquals(tdList.get(2).getText(), message);
-        return new MessageListPage(driver);
+        return this;
+    }
+
+    private void toPreviousPage(){
+        driver.findElement(previusButoon).click();
+    }
+
+    private List<WebElement> getCurrentPageLastRowCells(){
+        List<WebElement> trLists = driver.findElements(By.tagName("tr"));
+        return trLists.get(trLists.size()-1).findElements(By.tagName("td"));
+    }
+
+    private List<WebElement> getCurrentPagePreviousRowCells(){
+        List<WebElement> trLists = driver.findElements(By.tagName("tr"));
+        return trLists.get(trLists.size()-2).findElements(By.tagName("td"));
+    }
+
+    private int getRowsCountOnCurrentPage(){
+        List<WebElement> trLists = driver.findElements(By.tagName("tr"));
+        return trLists.size();
     }
 
     public MessageListPage checkTwoLastMessage(String headline1, String message1, String headline2, String message2){
+        //TODO Я  бы реализовал как-то так (нужно стремится к тому, чтобы все происходящее в методе
+        // было понятно с одного взгляда):
         toLastPage();
-        WebElement firstHeadline;
-        WebElement firstMessage;
-        WebElement secondHeadline;
-        WebElement secondMessage;
-        List<WebElement> trLists = driver.findElements(By.tagName("tr"));
-        //TODO Я  бы реализовал как-то так (нужно стремится к тому, чтобы все происходящее в методе было понятно с одного взгляда):
-        /*
-        toLastPage();
-        List<Element> lastRowCells = getCurrentPageLastRowCells();
-        //запоминаем текст ячеек в переменные
-        List<Element> previousRowCells;
-        if (getRowsCountOnCurrentPage()>1){
-            previousRowCells = getCurrentPageRowCells(getRowsCountOnCurrentPage()-1);
+        List<WebElement> lastRowCells = getCurrentPageLastRowCells();
+        List<WebElement> previousRowCells;
+        if(getRowsCountOnCurrentPage()>2){
+            previousRowCells = getCurrentPagePreviousRowCells();
         }else{
             toPreviousPage();
             previousRowCells = getCurrentPageLastRowCells();
         }
-        //запоминаем текст ячеек в переменные
-        //Далее уже асерты
-         */
-        if(trLists.size() > 2){
-            firstHeadline = trLists.get(trLists.size()-1).findElements(By.tagName("td")).get(1);
-            System.out.println(firstHeadline.getText());
-            secondHeadline = trLists.get(trLists.size()-2).findElements(By.tagName("td")).get(1);
-            System.out.println(secondHeadline.getText());
-            firstMessage = trLists.get(trLists.size()-1).findElements(By.tagName("td")).get(2);
-            System.out.println(firstMessage.getText());
-            secondMessage = trLists.get(trLists.size()-2).findElements(By.tagName("td")).get(2);
-            System.out.println(secondMessage.getText());
-        }else{
-            firstHeadline = trLists.get(trLists.size()-1).findElements(By.tagName("td")).get(1);
-            firstMessage = trLists.get(trLists.size()-1).findElements(By.tagName("td")).get(2);
-            driver.findElement(previusButoon).click();
-            List<WebElement> trListsBefore = driver.findElements(By.tagName("tr"));
-            secondHeadline = trListsBefore.get(trLists.size()-1).findElements(By.tagName("td")).get(1);
-            secondMessage = trListsBefore.get(trLists.size()-1).findElements(By.tagName("td")).get(2);
-        }
-        Assert.assertEquals(firstHeadline.getText(), headline2);
-        Assert.assertEquals(firstMessage.getText(), message2);
-        Assert.assertEquals(secondHeadline.getText(), headline1);
-        Assert.assertEquals(secondMessage.getText(), message1);
-        return new MessageListPage(driver);
+        Assert.assertEquals(lastRowCells.get(1).getText(), headline2);
+        Assert.assertEquals(lastRowCells.get(2).getText(), message2);
+        Assert.assertEquals(previousRowCells.get(1).getText(), headline1);
+        Assert.assertEquals(previousRowCells.get(2).getText(), message1);
+        return this;
     }
 
 
@@ -145,7 +137,7 @@ public class MessageListPage {
 
     public MessageListPage clickDeleteMessage(){
         getButtonsForLastMessage().findElement(delete).click();
-        return new MessageListPage(driver);
+        return this;
     }
 
     public MessageListPage checkMessageNotExist(int countOfMessageBefore){
@@ -154,7 +146,7 @@ public class MessageListPage {
         }
         List<WebElement> trLists = driver.findElements(By.tagName("tr"));
         if(trLists.size() == countOfMessageBefore){
-            return new MessageListPage(driver);
+            return this;
         } else {
          throw new RuntimeException("Message is created or didn't delete");
         }

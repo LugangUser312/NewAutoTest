@@ -39,7 +39,7 @@ public class ShowMessagePage {
     public ShowMessagePage checkMessage(String headline, String message){
         Assert.assertEquals(this.headline.getText(), headline);
         Assert.assertEquals(this.message.getText(), message);
-        return new ShowMessagePage(driver);
+        return this;
     }
 
     public MessageListPage messageListButtonClick(){

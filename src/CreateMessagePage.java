@@ -40,7 +40,7 @@ public class CreateMessagePage {
         headline.sendKeys(textHeadline);
         text.clear();
         text.sendKeys(textMessage);
-        return new CreateMessagePage(driver);
+        return this;
     }
 
     public ShowMessagePage createMessage(){
@@ -50,11 +50,11 @@ public class CreateMessagePage {
 
     public CreateMessagePage checkFieldsIsNotEmpty(){
         //TODO Может тут все таки ||, а не &&?
-        if (headline.getAttribute("value").isEmpty() && text.getAttribute("value").isEmpty()){
+        if (headline.getAttribute("value").isEmpty() || text.getAttribute("value").isEmpty()){
             throw new RuntimeException("Fields are empty");
         }else{
             //todo если хочешь вернуть эту же страницу, то и возвращай this. незачем каждый раз новый экземпляр создавать
-            return new CreateMessagePage(driver);
+            return this;
         }
     }
 

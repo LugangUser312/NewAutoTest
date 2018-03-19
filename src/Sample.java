@@ -8,7 +8,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import java.util.List;
 
 /**
@@ -23,6 +22,7 @@ public class Sample {
     public void doBeforeTest(){
         System.setProperty("webdriver.chrome.driver", "D:/Selenium/selenium/chromedriver_win32/chromedriver.exe");
         driver = new ChromeDriver();
+        driver.get("http://localhost:8080/QulixTeachingSite");
     }
 
     @AfterMethod
@@ -34,11 +34,11 @@ public class Sample {
     @Parameters({"Login", "Password", "Message", "Headline"})
     public void test1(String login, String password, String message, String headline) {
         System.out.println("Test 1 has started");
-        new StartPage(driver).clickUserController().
-                signIn(login, password).clickNewMessageButton().
-                enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage().
-                messageListButtonClick().
-                checkLastMessage(headline, message);
+        
+        new StartPage(driver).clickUserController()
+                .signIn(login, password).clickNewMessageButton()
+                .enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage()
+                .messageListButtonClick().checkLastMessage(headline, message);
     }
 
     @Test
@@ -46,25 +46,26 @@ public class Sample {
     public void test2(String login, String password, String message, String headline){
         System.out.println("Test 2 has started");
         new StartPage(driver).clickUserController().
-                signIn(login, password).clickNewMessageButton().
-                enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage().
-                checkMessage(headline, message).messageListButtonClick().
-                checkLastMessage(headline, message).clickViewLastMessage().checkMessage(headline, message);
+                signIn(login, password).clickNewMessageButton()
+                .enterMessage(headline, message).checkFieldsIsNotEmpty()
+                .createMessage().checkMessage(headline, message).messageListButtonClick()
+                .checkLastMessage(headline, message).clickViewLastMessage().checkMessage(headline, message);
 
     }
 
     @Test
     @Parameters({"Login", "Password", "Message", "Headline", "NewMessage", "NewHeadline"})
-    public void test3(String login, String password, String message, String headline, String newMessage, String newHeadline){
+    public void test3(String login, String password, String message, String headline,
+                      String newMessage, String newHeadline){
         System.out.println("Test 3 has started");
         new StartPage(driver).clickUserController().
-                signIn(login, password).clickNewMessageButton().
-                enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage().
-                checkMessage(headline, message).messageListButtonClick().
-                checkLastMessage(headline, message).clickEditMessage().
-                checkMessage(headline, message).editMessage(newHeadline, newMessage).checkMessage(newHeadline, newMessage).clickSaveButton().
-                checkMessage(newHeadline, newMessage).messageListButtonClick().
-                checkLastMessage(newHeadline, newMessage);
+                signIn(login, password).clickNewMessageButton()
+                .enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage()
+                .checkMessage(headline, message).messageListButtonClick()
+                .checkLastMessage(headline, message).clickEditMessage().checkMessage(headline, message)
+                .editMessage(newHeadline, newMessage).checkMessage(newHeadline, newMessage).clickSaveButton()
+                .checkMessage(newHeadline, newMessage).messageListButtonClick()
+                .checkLastMessage(newHeadline, newMessage);
     }
 
   @Test
@@ -72,11 +73,12 @@ public class Sample {
     public void test4(String login, String password, String message, String headline){
         System.out.println("Test 4 has started");
         int messageCount = new StartPage(driver).clickUserController().signIn(login, password).getMessageCount();
+        driver.get("http://localhost:8080/QulixTeachingSite");
         new StartPage(driver).clickUserController().
-                signIn(login, password).clickNewMessageButton().
-                enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage().
-                checkMessage(headline, message).messageListButtonClick().
-                checkLastMessage(headline, message).clickDeleteMessage().checkMessageNotExist(messageCount);
+                signIn(login, password).clickNewMessageButton()
+                .enterMessage(headline, message).checkFieldsIsNotEmpty()
+                .createMessage().checkMessage(headline, message).messageListButtonClick()
+                .checkLastMessage(headline, message).clickDeleteMessage().checkMessageNotExist(messageCount);
     }
 
     @Test
@@ -84,26 +86,31 @@ public class Sample {
     public void test5(String login, String password, String message, String headline){
         System.out.println("Test 5 has started");
         int messageCount = new StartPage(driver).clickUserController().signIn(login, password).getMessageCount();
+        driver.get("http://localhost:8080/QulixTeachingSite");
         new StartPage(driver).clickUserController().
-                signIn(login, password).clickNewMessageButton().
-                enterMessage(headline, message).checkFieldsIsNotEmpty().messageListButtonClick().checkMessageNotExist(messageCount);
+                signIn(login, password).clickNewMessageButton()
+                .enterMessage(headline, message).checkFieldsIsNotEmpty().messageListButtonClick()
+                .checkMessageNotExist(messageCount);
     }
 
 
     @Test
     @Parameters({"Login", "Password", "Message", "Headline", "NewMessage", "NewHeadline"})
-    public void test6(String login, String password, String message, String headline, String newMessage, String newHeadline){
+    public void test6(String login, String password, String message, String headline,
+                      String newMessage, String newHeadline){
         System.out.println("Test 6 has started");
         new StartPage(driver).clickUserController().
                 signIn(login, password).clickNewMessageButton().
-                enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage().
-                checkMessage(headline, message).clickNewMessageButton().enterMessage(newHeadline, newMessage).checkFieldsIsNotEmpty().createMessage().
-                checkMessage(newHeadline, newMessage).messageListButtonClick().checkTwoLastMessage(headline, message, newHeadline, newMessage);
+                enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage()
+                .checkMessage(headline, message).clickNewMessageButton().enterMessage(newHeadline, newMessage)
+                .checkFieldsIsNotEmpty().createMessage().checkMessage(newHeadline, newMessage)
+                .messageListButtonClick().checkTwoLastMessage(headline, message, newHeadline, newMessage);
     }
 
     @Test
     @Parameters({"Login", "Password", "Message", "Headline", "NewMessage", "NewHeadline", "NewLogin", "NewPassword"})
-    public void test7(String login, String password, String message, String headline, String newMessage, String newHeadline, String newLogin, String newPassword){
+    public void test7(String login, String password, String message, String headline, String newMessage,
+                      String newHeadline, String newLogin, String newPassword){
         System.out.println("Test 7 has started");
         //TODO Просто для инфо:
         //Точка при переносе должна быть в начале строки

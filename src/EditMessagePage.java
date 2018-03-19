@@ -14,11 +14,11 @@ public class EditMessagePage {
     private static String URL_MATCH = "Edit Message";
 
     //TODO Локатор налдо переделать
-    @FindBy(xpath = "//tr[1]/td/input[@id='headline']")
+    @FindBy(id = "headline")
     private WebElement headline;
 
     //TODO Локатор налдо переделать
-    @FindBy(xpath = "//tr[2]/td/input[@id='text']")
+    @FindBy(id = "text")
     private WebElement message;
 
     @FindBy(tagName = "h1")
@@ -38,7 +38,7 @@ public class EditMessagePage {
     public EditMessagePage checkMessage(String headline, String message){
         Assert.assertEquals(this.headline.getAttribute("value"), headline);
         Assert.assertEquals(this.message.getAttribute("value"), message);
-        return new EditMessagePage(driver);
+        return this;
     }
 
     public EditMessagePage editMessage(String newHeadline, String newMessage){
@@ -46,7 +46,7 @@ public class EditMessagePage {
         headline.sendKeys(newHeadline);
         message.clear();
         message.sendKeys(newMessage);
-        return new EditMessagePage(driver);
+        return this;
     }
 
     public ShowMessagePage clickSaveButton(){
