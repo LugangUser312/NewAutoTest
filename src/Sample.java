@@ -34,7 +34,7 @@ public class Sample {
     @Parameters({"Login", "Password", "Message", "Headline"})
     public void test1(String login, String password, String message, String headline) {
         System.out.println("Test 1 has started");
-        
+
         new StartPage(driver).clickUserController()
                 .signIn(login, password).clickNewMessageButton()
                 .enterMessage(headline, message).checkFieldsIsNotEmpty().createMessage()

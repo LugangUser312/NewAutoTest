@@ -30,10 +30,10 @@ public class StartPage {
         this.driver = driver;
     }
 
-    /*public static StartPage openInDriver(WebDriver driver){
+    public static StartPage openInDriver(WebDriver driver){
         driver.get("http://localhost:8080/QulixTeachingSite");
         return new StartPage(driver);
-    }*/
+    }
 
     public LoginPage clickUserController(){
         driver.findElement(userControllerLink).click();
