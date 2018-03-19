@@ -112,9 +112,6 @@ public class Sample {
     public void test7(String login, String password, String message, String headline, String newMessage,
                       String newHeadline, String newLogin, String newPassword){
         System.out.println("Test 7 has started");
-        //TODO Просто для инфо:
-        //Точка при переносе должна быть в начале строки
-        //Старайся оформлять код так, чтобы он не вылезал за пределы экрана (IDEA подсвечивает границы печатаемого окна)
         new StartPage(driver).clickUserController()
                 .signIn(login, password)
                 .clickNewMessageButton()

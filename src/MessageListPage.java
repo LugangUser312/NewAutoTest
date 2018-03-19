@@ -99,8 +99,6 @@ public class MessageListPage {
     }
 
     public MessageListPage checkTwoLastMessage(String headline1, String message1, String headline2, String message2){
-        //TODO Я  бы реализовал как-то так (нужно стремится к тому, чтобы все происходящее в методе
-        // было понятно с одного взгляда):
         toLastPage();
         List<WebElement> lastRowCells = getCurrentPageLastRowCells();
         List<WebElement> previousRowCells;

@@ -13,11 +13,9 @@ public class EditMessagePage {
 
     private static String URL_MATCH = "Edit Message";
 
-    //TODO Локатор налдо переделать
     @FindBy(id = "headline")
     private WebElement headline;
 
-    //TODO Локатор налдо переделать
     @FindBy(id = "text")
     private WebElement message;
 
