@@ -1,11 +1,11 @@
-import io.qameta.allure.Attachment;
+package com.qulix.selenium.learn;
+
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import org.testng.annotations.Listeners;
 
 /**
  * Created by Starovoytovdv on 09.03.2018.
@@ -43,14 +43,14 @@ public class ShowMessagePage {
 
 
     @Step("Check message")
-    public ShowMessagePage checkMessage(String headline, String message){
-        Assert.assertEquals(this.headline.getText(), headline);
-        Assert.assertEquals(this.message.getText(), message);
+    public ShowMessagePage checkMessage(Message mess){
+        Assert.assertEquals(this.headline.getText(), mess.getHeadline());
+        Assert.assertEquals(this.message.getText(), mess.getDescription());
         return this;
     }
 
 
-    @Step("Click button Message List")
+    @Step("Click button List")
     public MessageListPage messageListButtonClick(){
         messageListButton.click();
         return new MessageListPage(driver);

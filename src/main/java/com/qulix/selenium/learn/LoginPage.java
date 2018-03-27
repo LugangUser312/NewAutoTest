@@ -1,12 +1,10 @@
-import io.qameta.allure.Attachment;
+package com.qulix.selenium.learn;
+
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.TestListenerAdapter;
-import org.testng.annotations.Listeners;
-import org.testng.internal.TestListenerHelper;
 
 /**
  * Created by Starovoytovdv on 06.03.2018.
@@ -34,7 +32,7 @@ public class LoginPage {
     public LoginPage(WebDriver driver){
         PageFactory.initElements(driver, this);
         if (!title.getText().equals(URL_MATCH)){
-            throw new IllegalStateException("This is not the LoginPage you are expected");
+            throw new IllegalStateException("This is not LoginPage you are expected");
         }
         this.driver = driver;
     }

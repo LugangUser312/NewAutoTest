@@ -1,4 +1,5 @@
-import io.qameta.allure.Attachment;
+package com.qulix.selenium.learn;
+
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -6,12 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import org.testng.annotations.Listeners;
 
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Starovoytovdv on 06.03.2018.
@@ -82,12 +79,12 @@ public class MessageListPage {
 
 
     @Step("Check last message")
-    public MessageListPage checkLastMessage(String headline, String message){
+    public MessageListPage checkLastMessage(Message message){
         toLastPage();
         List<WebElement> trLists = driver.findElements(By.tagName("tr"));
         List<WebElement> tdList = trLists.get(trLists.size()-1).findElements(By.tagName("td"));
-        Assert.assertEquals(tdList.get(1).getText(), headline);
-        Assert.assertEquals(tdList.get(2).getText(), message);
+        Assert.assertEquals(tdList.get(1).getText(), message.getHeadline());
+        Assert.assertEquals(tdList.get(2).getText(), message.getDescription());
         return this;
     }
 
@@ -115,7 +112,7 @@ public class MessageListPage {
 
 
     @Step("Check two last message")
-    public MessageListPage checkTwoLastMessage(String headline1, String message1, String headline2, String message2){
+    public MessageListPage checkTwoLastMessage(Message mess1, Message mess2){
         toLastPage();
         List<WebElement> lastRowCells = getCurrentPageLastRowCells();
         List<WebElement> previousRowCells;
@@ -125,10 +122,10 @@ public class MessageListPage {
             toPreviousPage();
             previousRowCells = getCurrentPageLastRowCells();
         }
-        Assert.assertEquals(lastRowCells.get(1).getText(), headline2);
-        Assert.assertEquals(lastRowCells.get(2).getText(), message2);
-        Assert.assertEquals(previousRowCells.get(1).getText(), headline1);
-        Assert.assertEquals(previousRowCells.get(2).getText(), message1);
+        Assert.assertEquals(lastRowCells.get(1).getText(), mess2.getHeadline());
+        Assert.assertEquals(lastRowCells.get(2).getText(), mess2.getDescription());
+        Assert.assertEquals(previousRowCells.get(1).getText(), mess1.getHeadline());
+        Assert.assertEquals(previousRowCells.get(2).getText(), mess1.getDescription());
         return this;
     }
 
@@ -148,7 +145,7 @@ public class MessageListPage {
     }
 
 
-    @Step("Click Edit Last Message")
+    @Step("Click Edit Message")
     public EditMessagePage clickEditMessage(){
         getButtonsForLastMessage().findElement(edit).click();
         return new EditMessagePage(driver);

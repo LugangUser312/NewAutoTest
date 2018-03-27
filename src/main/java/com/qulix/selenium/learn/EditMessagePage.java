@@ -1,11 +1,11 @@
-import io.qameta.allure.Attachment;
+package com.qulix.selenium.learn;
+
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import org.testng.annotations.Listeners;
 
 /**
  * Created by Starovoytovdv on 10.03.2018.
@@ -33,26 +33,26 @@ public class EditMessagePage {
     public EditMessagePage(WebDriver driver){
         PageFactory.initElements(driver, this);
         if (!title.getText().equals(URL_MATCH)){
-            throw new IllegalStateException("This is not the EditMessagePage are your expected.");
+            throw new IllegalStateException("This is not EditMessagePage are your expected.");
         }
         this.driver = driver;
     }
 
 
     @Step("Check message")
-    public EditMessagePage checkMessage(String headline, String message){
-        Assert.assertEquals(this.headline.getAttribute("value"), headline);
-        Assert.assertEquals(this.message.getAttribute("value"), message);
+    public EditMessagePage checkMessage(Message mess){
+        Assert.assertEquals(this.headline.getAttribute("value"), mess.getHeadline());
+        Assert.assertEquals(this.message.getAttribute("value"), mess.getDescription());
         return this;
     }
 
 
     @Step("Edit message")
-    public EditMessagePage editMessage(String newHeadline, String newMessage){
+    public EditMessagePage editMessage(Message mess){
         headline.clear();
-        headline.sendKeys(newHeadline);
+        headline.sendKeys(mess.getHeadline());
         message.clear();
-        message.sendKeys(newMessage);
+        message.sendKeys(mess.getDescription());
         return this;
     }
 

@@ -1,19 +1,15 @@
-import io.qameta.allure.Features;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+import com.qulix.selenium.learn.Message;
+import com.qulix.selenium.learn.StartPage;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
 import org.testng.annotations.*;
-import java.util.List;
 
 /**
  * Created by Starovoytovdv on 05.02.2018.
  */
 
+
+@Listeners(ListnerTest.class)
 public class Sample {
 
     private WebDriver driver;
@@ -37,8 +33,8 @@ public class Sample {
         Message mess = new Message("Zagolovok", "Textik");
         StartPage.openInDriver(driver).clickUserController()
                 .signIn(login, password).clickNewMessageButton()
-                .enterMessage(mess.getHeadline(), mess.getDescription()).checkFieldsIsNotEmpty().createMessage()
-                .messageListButtonClick().checkLastMessage(mess.getHeadline(), mess.getDescription());
+                .enterMessage(mess).checkFieldsIsNotEmpty().createMessage()
+                .messageListButtonClick().checkLastMessage(mess);
 
     }
 
@@ -49,10 +45,10 @@ public class Sample {
         Message mess = new Message("Zagolovok", "Textik");
         StartPage.openInDriver(driver).clickUserController().
                 signIn(login, password).clickNewMessageButton()
-                .enterMessage(mess.getHeadline(), mess.getDescription()).checkFieldsIsNotEmpty()
-                .createMessage().checkMessage(mess.getHeadline(), mess.getDescription()).messageListButtonClick()
-                .checkLastMessage(mess.getHeadline(), mess.getDescription()).clickViewLastMessage()
-                .checkMessage(mess.getHeadline(), mess.getDescription());
+                .enterMessage(mess).checkFieldsIsNotEmpty()
+                .createMessage().checkMessage(mess).messageListButtonClick()
+                .checkLastMessage(mess).clickViewLastMessage()
+                .checkMessage(mess);
 
     }
 
@@ -64,14 +60,14 @@ public class Sample {
         Message newMess = new Message("11111", "222222");
         StartPage.openInDriver(driver).clickUserController().
                 signIn(login, password).clickNewMessageButton()
-                .enterMessage(mess.getHeadline(), mess.getDescription()).checkFieldsIsNotEmpty().createMessage()
-                .checkMessage(mess.getHeadline(), mess.getDescription()).messageListButtonClick()
-                .checkLastMessage(mess.getHeadline(), mess.getDescription()).clickEditMessage()
-                .checkMessage(mess.getHeadline(), mess.getDescription())
-                .editMessage(newMess.getHeadline(), newMess.getDescription())
-                .checkMessage(newMess.getHeadline(), newMess.getDescription()).clickSaveButton()
-                .checkMessage(newMess.getHeadline(), newMess.getDescription()).messageListButtonClick()
-                .checkLastMessage(newMess.getHeadline(), newMess.getDescription());
+                .enterMessage(mess).checkFieldsIsNotEmpty().createMessage()
+                .checkMessage(mess).messageListButtonClick()
+                .checkLastMessage(mess).clickEditMessage()
+                .checkMessage(mess)
+                .editMessage(newMess)
+                .checkMessage(newMess).clickSaveButton()
+                .checkMessage(newMess).messageListButtonClick()
+                .checkLastMessage(newMess);
     }
 
     @Test (description = "Check ability to delete a message")
@@ -83,9 +79,9 @@ public class Sample {
                 .getMessageCount();
         StartPage.openInDriver(driver).clickUserController().
                 signIn(login, password).clickNewMessageButton()
-                .enterMessage(mess.getHeadline(), mess.getDescription()).checkFieldsIsNotEmpty()
-                .createMessage().checkMessage(mess.getHeadline(), mess.getDescription()).messageListButtonClick()
-                .checkLastMessage(mess.getHeadline(), mess.getDescription()).clickDeleteMessage()
+                .enterMessage(mess).checkFieldsIsNotEmpty()
+                .createMessage().checkMessage(mess).messageListButtonClick()
+                .checkLastMessage(mess).clickDeleteMessage()
                 .checkMessageNotExist(messageCount);
     }
 
@@ -99,7 +95,7 @@ public class Sample {
                 .getMessageCount();
         StartPage.openInDriver(driver).clickUserController().
                 signIn(login, password).clickNewMessageButton()
-                .enterMessage(mess.getHeadline(), mess.getDescription()).checkFieldsIsNotEmpty().messageListButtonClick()
+                .enterMessage(mess).checkFieldsIsNotEmpty().messageListButtonClick()
                 .checkMessageNotExist(messageCount);
     }
 
@@ -112,12 +108,12 @@ public class Sample {
         Message newMess = new Message("11111", "222222");
         StartPage.openInDriver(driver).clickUserController().
                 signIn(login, password).clickNewMessageButton().
-                enterMessage(mess.getHeadline(), mess.getDescription()).checkFieldsIsNotEmpty().createMessage()
-                .checkMessage(mess.getHeadline(), mess.getDescription()).clickNewMessageButton()
-                .enterMessage(newMess.getHeadline(), newMess.getDescription())
-                .checkFieldsIsNotEmpty().createMessage().checkMessage(newMess.getHeadline(), newMess.getDescription())
+                enterMessage(mess).checkFieldsIsNotEmpty().createMessage()
+                .checkMessage(mess).clickNewMessageButton()
+                .enterMessage(newMess)
+                .checkFieldsIsNotEmpty().createMessage().checkMessage(newMess)
                 .messageListButtonClick()
-                .checkTwoLastMessage(mess.getHeadline(), mess.getDescription(), newMess.getHeadline(), newMess.getDescription());
+                .checkTwoLastMessage(mess, newMess);
     }
 
     @Test (description = "Check the creation of two messages from different users")
@@ -129,18 +125,22 @@ public class Sample {
         StartPage.openInDriver(driver).clickUserController()
                 .signIn(login, password)
                 .clickNewMessageButton()
-                .enterMessage(mess.getHeadline(), mess.getDescription()).checkFieldsIsNotEmpty().createMessage()
-                .checkMessage(mess.getHeadline(), mess.getDescription()).messageListButtonClick()
-                .checkLastMessage(mess.getHeadline(), mess.getDescription())
+                .enterMessage(mess).checkFieldsIsNotEmpty().createMessage()
+                .checkMessage(mess).messageListButtonClick()
+                .checkLastMessage(mess)
                 .clickViewLastMessage()
-                .checkMessage(mess.getHeadline(), mess.getDescription()).messageListButtonClick()
-                .checkLastMessage(mess.getHeadline(), mess.getDescription()).clickLogout().signIn(newLogin, newPassword)
+                .checkMessage(mess).messageListButtonClick()
+                .checkLastMessage(mess).clickLogout().signIn(newLogin, newPassword)
                 .clickNewMessageButton()
-                .enterMessage(newMess.getHeadline(),newMess.getDescription()).checkFieldsIsNotEmpty().
-                createMessage().checkMessage(newMess.getHeadline(),newMess.getDescription()).messageListButtonClick()
-                .checkLastMessage(newMess.getHeadline(),newMess.getDescription()).clickViewLastMessage()
-                .checkMessage(newMess.getHeadline(),newMess.getDescription()).messageListButtonClick().clickLogout()
+                .enterMessage(newMess).checkFieldsIsNotEmpty().
+                createMessage().checkMessage(newMess).messageListButtonClick()
+                .checkLastMessage(newMess).clickViewLastMessage()
+                .checkMessage(newMess).messageListButtonClick().clickLogout()
                 .signIn(login, password)
-                .checkTwoLastMessage(mess.getHeadline(), mess.getDescription(), newMess.getHeadline(),newMess.getDescription());
+                .checkTwoLastMessage(mess, newMess);
+    }
+
+    public WebDriver getDriver() {
+        return driver;
     }
 }

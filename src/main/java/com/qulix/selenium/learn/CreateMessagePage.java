@@ -1,10 +1,10 @@
-import io.qameta.allure.Attachment;
+package com.qulix.selenium.learn;
+
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.annotations.Listeners;
 
 /**
  * Created by Starovoytovdv on 09.03.2018.
@@ -34,19 +34,21 @@ public class CreateMessagePage {
     public CreateMessagePage(WebDriver driver){
         PageFactory.initElements(driver, this);
         if (!title.getText().equals(URL_MATCH)){
-            throw new IllegalStateException("This is not the CreateMessagePage you are expected");
+            throw new IllegalStateException("This is not CreateMessagePage you are expected");
         }
         this.driver = driver;
     }
 
 
     //TODO Попробуй Enter headline {0} and description {1} for message.
-    @Step("Enter headline and description for message.")
-    public CreateMessagePage enterMessage(String textHeadline, String textMessage){
+    // Сразу везде, где есть параметры в методе, так сделал, но решил что без них нагляднее
+    // т.к степы с параметрами можно развернуть и посомтерть что передовалось
+    @Step("Enter message")
+    public CreateMessagePage enterMessage(Message message){
         headline.clear();
-        headline.sendKeys(textHeadline);
+        headline.sendKeys(message.getHeadline());
         text.clear();
-        text.sendKeys(textMessage);
+        text.sendKeys(message.getDescription());
         return this;
     }
 
@@ -68,7 +70,7 @@ public class CreateMessagePage {
     }
 
 
-    @Step("Click button Message List")
+    @Step("Click button List")
     public MessageListPage messageListButtonClick(){
         messageListButton.click();
         return new MessageListPage(driver);
