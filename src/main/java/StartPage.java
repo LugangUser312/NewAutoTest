@@ -19,14 +19,6 @@ public class StartPage {
 
 
     public StartPage(WebDriver driver){
-        //TODo почему это здесь? Не надо оно тут. Страница должна работать со своими элементами.
-        // Можно сделать статик метод а-ля StartPage page = StartPage.openInDriver(driver),
-        // Но ни в коем случае не зашивать навигацию куда-то внутрь и тем более в конструктор
-
-        // Если создать static метод потом в классе с кейсами так использовать?
-        // StartPage page = StartPage.openInDriver(driver);
-        // page.clickUserController().........
-        // в таком случае у нас будет где-нибдуь вызываться конструктор c проверкой на соответствие странице?
         if (driver.findElements(userControllerLink).size() == 0){
             throw new IllegalStateException(
                     "This is not the StartPage you are expected");

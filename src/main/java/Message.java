@@ -1,6 +1,7 @@
 /**
  * Created by Starovoytovdv on 25.03.2018.
  */
+//TODO Все классы стоит размещать все-таки в пакете. А-ля com.qulix.selenium.learn.*
 public class Message {
 
     private String headline;

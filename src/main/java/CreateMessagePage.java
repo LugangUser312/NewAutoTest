@@ -40,6 +40,7 @@ public class CreateMessagePage {
     }
 
 
+    //TODO Попробуй Enter headline {0} and description {1} for message.
     @Step("Enter headline and description for message.")
     public CreateMessagePage enterMessage(String textHeadline, String textMessage){
         headline.clear();
