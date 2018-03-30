@@ -1,5 +1,8 @@
-import com.qulix.selenium.learn.Message;
-import com.qulix.selenium.learn.StartPage;
+package com.qulix.selenium.learn.tests;
+
+import com.qulix.selenium.learn.data.Message;
+import com.qulix.selenium.learn.pages.StartPage;
+import com.qulix.selenium.learn.utils.ListnerTest;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.*;

@@ -1,3 +1,6 @@
+package com.qulix.selenium.learn.utils;
+
+import com.qulix.selenium.learn.tests.Sample;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -26,7 +29,7 @@ public class ListnerTest extends Sample implements ITestListener{
         Object testClass = result.getInstance();
         WebDriver driver = ((Sample)testClass).getDriver();
 
-        if (driver instanceof WebDriver){
+        if (driver instanceof WebDriver){ //TODO К чему эта проверка? он по-любому инстанс
             saveScreenShotPNG(driver);
         }
     }
@@ -37,7 +40,7 @@ public class ListnerTest extends Sample implements ITestListener{
         WebDriver driver = ((Sample)testClass).getDriver();
 
         if (driver instanceof WebDriver){
-            saveScreenShotPNG(driver);
+            saveScreenShotPNG(driver); //TODO А дальше что?
         }
     }
 

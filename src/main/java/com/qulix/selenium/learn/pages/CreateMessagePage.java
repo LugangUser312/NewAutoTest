@@ -1,5 +1,6 @@
-package com.qulix.selenium.learn;
+package com.qulix.selenium.learn.pages;
 
+import com.qulix.selenium.learn.data.Message;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,9 +41,6 @@ public class CreateMessagePage {
     }
 
 
-    //TODO Попробуй Enter headline {0} and description {1} for message.
-    // Сразу везде, где есть параметры в методе, так сделал, но решил что без них нагляднее
-    // т.к степы с параметрами можно развернуть и посомтерть что передовалось
     @Step("Enter message")
     public CreateMessagePage enterMessage(Message message){
         headline.clear();

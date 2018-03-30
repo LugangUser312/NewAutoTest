@@ -1,5 +1,6 @@
-package com.qulix.selenium.learn;
+package com.qulix.selenium.learn.pages;
 
+import com.qulix.selenium.learn.data.Message;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
